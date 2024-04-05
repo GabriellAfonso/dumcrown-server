@@ -18,6 +18,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'channels',
+    'rest_framework',
+    'rest_framework.authtoken',
+
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,6 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'dumcrown',
 ]
 
 MIDDLEWARE = [

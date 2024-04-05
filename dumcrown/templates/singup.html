@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        *{
+            padding: 0px;
+        }
+        h1 {
+            text-aling:center;
+        }
+        .form-div{
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           flex-direction: column;
+        }
+        .form-div input{
+           margin-bottom: 10px;
+           width: 350px;
+           padding: 10px;
+        }
+    </style>
+</head>
+<body>
+   {% if created_account %}criou a conta mlk{% endif %}
+    <form method="POST" action="{% url 'singup' %}">
+        <div class="form-div">
+        {% csrf_token %}
+        <h1>Cadastre-se</h1>
+
+        <input type="text" id="username" class="form-input" placeholder="Nome de usuário"
+        name={{ form.username.html_name }} 
+        value="{{ form.username.value|default_if_none:'' }}">
+
+
+        {% for error in form.username.errors %}
+        <p class="error-messages">{{ error }}</p>
+        {% endfor %}
+
+
+        <input type="password" id="password" class="form-input" placeholder="Senha"
+        name={{ form.password1.html_name }}>
+
+
+        {% for error in form.password1.errors %}
+        <p class="error-messages">{{ error }}</p>
+        {% endfor %}
+
+
+        <input type="password" id="confirm_password" class="form-input" placeholder="Confirme a senha"
+        name={{ form.password2.html_name }}>
+
+
+        {% for error in form.password2.errors %}
+        <p class="error-messages">{{ error }}</p>
+        {% endfor %}
+
+        <input type="email" id="email" class="form-input" placeholder="E-mail(opcional)"
+        name={{ form.email.html_name }} 
+        value={{ form.email.value|default_if_none:'' }}>
+
+
+        {% for error in form.email.errors %}
+        <p class="error-messages">{{ error }}</p>
+        {% endfor %}
+
+
+        <button type="submit" class="login_button" id="RegisterButton">Criar conta</button>
+
+            <div class="need-account">
+                Já possui uma conta? <a href="#">Conecte-se</a>
+            </div>
+</body>
+</html>
