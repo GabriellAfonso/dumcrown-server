@@ -1,10 +1,10 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls import path
-from dumcrown import consumers
+from dumcrown.server import consumer
 
 websocket_urlpatterns = [
     # Adicione ".as_asgi()" aqui
-    path('ws/game/', consumers.SomeConsumer.as_asgi()),
+    path('ws/game/', consumer.PLayerConsumer.as_asgi()),
 ]
 
 application = ProtocolTypeRouter({
