@@ -6,24 +6,16 @@ from django.conf import settings
 
 
 class PLayerConsumer(AsyncWebsocketConsumer):
-    async def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.user_id
 
     async def connect(self):
-        # Chamado quando o WebSocket é aberto.
-
-        # Exemplo de como obter o token dos parâmetros de consulta
         token = self.scope['query_string'].decode("utf-8").split('=')[1]
 
         try:
-            # Validar o token JWT
             decoded_token = jwt.decode(
                 token, settings.SECRET_KEY, algorithms=['HS256'])
 
             if self.user_has_permission(decoded_token['user_id']):
                 await self.accept()
-                self.user_id = decoded_token
                 await self.send(text_data=json.dumps({
                     'code': 'connected',
                     'data': '',
@@ -31,13 +23,11 @@ class PLayerConsumer(AsyncWebsocketConsumer):
             else:
                 self.close()
         except jwt.ExpiredSignatureError:
-            # Token expirado
+
             self.close()
         except jwt.InvalidTokenError:
-            # Token inválido
-            self.close()
 
-        # print("Scope:", self.scope)
+            self.close()
 
     async def user_has_permission(self, user_id):
         # Verifique se o usuário tem permissão para se conectar
@@ -49,7 +39,6 @@ class PLayerConsumer(AsyncWebsocketConsumer):
         pass
 
     async def receive(self, text_data):
-        # Chamado quando uma mensagem WebSocket é recebida do cliente.
 
         message = json.loads(text_data)
 

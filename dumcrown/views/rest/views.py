@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from dumcrown.models import Player
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -14,6 +15,9 @@ class LoginRest(APIView):
         user = get_object_or_404(User, username=request.data['username'])
         if not user.check_password(request.data['password']):
             return Response("missing user", status=status.HTTP_404_NOT_FOUND)
+
+        player_instance = Player.objects.get(user=user)
+        player_instance.record_login()
 
         payload = {'user_id': user.id}
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
